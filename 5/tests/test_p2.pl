@@ -57,3 +57,44 @@ test(count_equations_singleton_input) :-
     count_equations([7], 0).
 
 :- end_tests(p2).
+
+:- begin_tests(expression_value).
+
+test(singleton) :-
+    once(expression_value([5], num(5), 5)).
+
+test(addition) :-
+    once(expression_value([4, 2], expr(add, num(4), num(2)), 6)).
+
+test(subtraction) :-
+    once(expression_value([4, 7], expr(subtract, num(4), num(7)), -3)).
+
+test(multiplication) :-
+    once(expression_value([4, 2], expr(multiply, num(4), num(2)), 8)).
+
+test(exact_division) :-
+    once(expression_value([8, 4], expr(divide, num(8), num(4)), 2)).
+
+test(inexact_direct_division_fails, [fail]) :-
+    expression_value([5, 2], expr(divide, num(5), num(2)), 2).
+
+test(division_by_zero_fails, [fail]) :-
+    expression_value([5, 0], expr(divide, num(5), num(0)), _Value).
+
+test(nested_expression_preserves_order_and_exact_division) :-
+    once(expression_value([8, 4, 2],
+                          expr(add, expr(divide, num(8), num(4)), num(2)),
+                          4)).
+
+test(nested_inexact_division_fails, [fail]) :-
+    expression_value([5, 2, 1],
+                     expr(subtract, expr(divide, num(5), num(2)), num(1)),
+                     1).
+
+test(empty_list_fails, [fail]) :-
+    expression_value([], _Expression, _Value).
+
+test(negative_number_fails, [fail]) :-
+    expression_value([-1], num(-1), -1).
+
+:- end_tests(expression_value).
