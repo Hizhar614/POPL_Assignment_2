@@ -107,6 +107,7 @@ main :-
     clue(6, Solution),
     clue(7, Solution),
     clue(8, Solution),
+    clue(9, Solution),
     Solution = [
         p('Alex', AlexDepartment, AlexLanguage, AlexProject),
         p('Ben', BenDepartment, BenLanguage, BenProject),
