@@ -184,6 +184,40 @@ test_clue6 :-
         ]),
         carla_development_department_fails).
 
+test_clue7 :-
+    require_test(
+        clue(7, [
+            p('Alex', development, python, 'AI'),
+            p('Ben', design, java, web),
+            p('Carla', testing, 'c++', embedded),
+            p('Dana', research, javascript, data)
+        ]),
+        dana_research_non_java_succeeds),
+    require_test(
+        clue(7, [
+            p('Alex', research, python, 'AI'),
+            p('Ben', development, java, web),
+            p('Carla', design, 'c++', embedded),
+            p('Dana', testing, javascript, data)
+        ]),
+        dana_testing_non_java_succeeds),
+    require_test(
+        \+ clue(7, [
+            p('Alex', research, python, 'AI'),
+            p('Ben', development, java, web),
+            p('Carla', testing, 'c++', embedded),
+            p('Dana', design, javascript, data)
+        ]),
+        dana_design_non_java_fails),
+    require_test(
+        \+ clue(7, [
+            p('Alex', development, python, 'AI'),
+            p('Ben', design, javascript, web),
+            p('Carla', testing, 'c++', embedded),
+            p('Dana', research, java, data)
+        ]),
+        dana_research_java_fails).
+
 % Single entry point for the P1 suite
 
 run_p1_tests :-
@@ -193,7 +227,8 @@ run_p1_tests :-
     test_clue3,
     test_clue4,
     test_clue5,
-    test_clue6.
+    test_clue6,
+    test_clue7.
 
 require_test(Goal, TestName) :-
     (   call(Goal)

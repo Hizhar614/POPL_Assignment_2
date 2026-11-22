@@ -67,3 +67,12 @@ clue(6, [
 ]) :-
     dif(Project, embedded),
     dif(Department, development).
+
+clue(7, [
+    p('Alex', _, _, _),
+    p('Ben', _, _, _),
+    p('Carla', _, _, _),
+    p('Dana', Department, Language, _)
+]) :-
+    dif(Language, java),
+    (Department = research ; Department = testing).
