@@ -32,3 +32,12 @@ clue(2, [
 ]) :-
     dif(Department, development),
     dif(Language, 'c++').
+
+clue(3, Solution) :-
+    Solution = [
+        p('Alex', _, _, _),
+        p('Ben', _, _, _),
+        p('Carla', _, _, _),
+        p('Dana', _, _, _)
+    ],
+    member(p(_, testing, python, _), Solution).

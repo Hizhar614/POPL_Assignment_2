@@ -80,12 +80,39 @@ test_clue2 :-
         ]),
         alex_prefers_cpp_fails).
 
+test_clue3 :-
+    require_test(
+        clue(3, [
+            p('Alex', research, java, web),
+            p('Ben', development, javascript, 'AI'),
+            p('Carla', testing, python, embedded),
+            p('Dana', design, 'c++', data)
+        ]),
+        testing_department_likes_python_succeeds),
+    require_test(
+        \+ clue(3, [
+            p('Alex', research, python, web),
+            p('Ben', development, javascript, 'AI'),
+            p('Carla', testing, java, embedded),
+            p('Dana', design, 'c++', data)
+        ]),
+        testing_department_likes_java_fails),
+    require_test(
+        \+ clue(3, [
+            p('Alex', research, python, web),
+            p('Ben', development, java, 'AI'),
+            p('Carla', testing, 'c++', embedded),
+            p('Dana', design, javascript, data)
+        ]),
+        python_outside_testing_fails).
+
 % Single entry point for the P1 suite
 
 run_p1_tests :-
     test_candidate_generator,
     test_clue1,
-    test_clue2.
+    test_clue2,
+    test_clue3.
 
 require_test(Goal, TestName) :-
     (   call(Goal)
