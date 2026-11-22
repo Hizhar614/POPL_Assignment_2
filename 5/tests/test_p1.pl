@@ -4,7 +4,9 @@
 :- use_module(library(lists), [permutation/2]).
 :- use_module(library(apply), [maplist/2]).
 
-run_generator_tests :-
+% Candidate generator tests
+
+test_candidate_generator :-
     findall(Solution, candidate_solution(Solution), Solutions),
     require_test(length(Solutions, 13824), generated_solution_count),
     require_test(maplist(valid_structure, Solutions), every_solution_is_valid),
@@ -23,6 +25,40 @@ valid_structure([
                 [Lang1, Lang2, Lang3, Lang4]),
     permutation(['AI', web, embedded, data],
                 [Project1, Project2, Project3, Project4]).
+
+% Individual clue tests
+
+test_clue1 :-
+    require_test(
+        clue(1, [
+            p('Alex', design, python, 'AI'),
+            p('Ben', development, java, web),
+            p('Carla', testing, 'c++', embedded),
+            p('Dana', research, javascript, data)
+        ]),
+        valid_ai_preference_succeeds),
+    require_test(
+        \+ clue(1, [
+            p('Alex', development, python, web),
+            p('Ben', research, java, 'AI'),
+            p('Carla', design, 'c++', embedded),
+            p('Dana', testing, javascript, data)
+        ]),
+        ai_preference_in_research_fails),
+    require_test(
+        \+ clue(1, [
+            p('Alex', research, python, web),
+            p('Ben', development, java, embedded),
+            p('Carla', design, 'c++', data),
+            p('Dana', testing, javascript, 'AI')
+        ]),
+        dana_preferring_ai_fails).
+
+% Single entry point for the P1 suite
+
+run_p1_tests :-
+    test_candidate_generator,
+    test_clue1.
 
 require_test(Goal, TestName) :-
     (   call(Goal)
