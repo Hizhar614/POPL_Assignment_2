@@ -54,11 +54,38 @@ test_clue1 :-
         ]),
         dana_preferring_ai_fails).
 
+test_clue2 :-
+    require_test(
+        clue(2, [
+            p('Alex', design, python, web),
+            p('Ben', development, java, 'AI'),
+            p('Carla', testing, 'c++', embedded),
+            p('Dana', research, javascript, data)
+        ]),
+        alex_conditions_satisfied),
+    require_test(
+        \+ clue(2, [
+            p('Alex', development, python, web),
+            p('Ben', research, java, 'AI'),
+            p('Carla', design, 'c++', embedded),
+            p('Dana', testing, javascript, data)
+        ]),
+        alex_in_development_fails),
+    require_test(
+        \+ clue(2, [
+            p('Alex', design, 'c++', web),
+            p('Ben', development, java, 'AI'),
+            p('Carla', testing, python, embedded),
+            p('Dana', research, javascript, data)
+        ]),
+        alex_prefers_cpp_fails).
+
 % Single entry point for the P1 suite
 
 run_p1_tests :-
     test_candidate_generator,
-    test_clue1.
+    test_clue1,
+    test_clue2.
 
 require_test(Goal, TestName) :-
     (   call(Goal)

@@ -23,3 +23,12 @@ clue(1, Solution) :-
     member(p(Name, Department, _, 'AI'), Solution),
     dif(Department, research),
     dif(Name, 'Dana').
+
+clue(2, [
+    p('Alex', Department, Language, _),
+    p('Ben', _, _, _),
+    p('Carla', _, _, _),
+    p('Dana', _, _, _)
+]) :-
+    dif(Department, development),
+    dif(Language, 'c++').
