@@ -27,10 +27,10 @@ test(generate_equation_four_numbers) :-
     string(Equation).
 
 test(generate_equation_exact_division_example) :-
-    generate_equation([4, 2, 5, 3], "4/2=5-3").
+    once(generate_equation([4, 2, 5, 3], "4/2=5-3")).
 
 test(generate_equation_multiplication_example) :-
-    generate_equation([2, 4, 8], "2*4=8").
+    once(generate_equation([2, 4, 8], "2*4=8")).
 
 test(generate_equation_no_solution_example, [fail]) :-
     generate_equation([2, 3, 4], _Equation).
