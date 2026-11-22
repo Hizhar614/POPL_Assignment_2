@@ -86,3 +86,28 @@ clue(8, Solution) :-
     ],
     member(p(_, research, Language, data), Solution),
     dif(Language, javascript).
+
+main :-
+    candidate_solution(Solution),
+    clue(1, Solution),
+    clue(2, Solution),
+    clue(3, Solution),
+    clue(4, Solution),
+    clue(5, Solution),
+    clue(6, Solution),
+    clue(7, Solution),
+    clue(8, Solution),
+    Solution = [
+        p('Alex', AlexDepartment, AlexLanguage, AlexProject),
+        p('Ben', BenDepartment, BenLanguage, BenProject),
+        p('Carla', CarlaDepartment, CarlaLanguage, CarlaProject),
+        p('Dana', DanaDepartment, DanaLanguage, DanaProject)
+    ],
+    format('Alex = [~a, ~a, ~a]~n',
+           [AlexDepartment, AlexLanguage, AlexProject]),
+    format('Ben = [~a, ~a, ~a]~n',
+           [BenDepartment, BenLanguage, BenProject]),
+    format('Carla = [~a, ~a, ~a]~n',
+           [CarlaDepartment, CarlaLanguage, CarlaProject]),
+    format('Dana = [~a, ~a, ~a]~n',
+           [DanaDepartment, DanaLanguage, DanaProject]).
