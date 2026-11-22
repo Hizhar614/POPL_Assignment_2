@@ -58,3 +58,12 @@ clue(5, Solution) :-
         p('Dana', _, _, _)
     ],
     member(p(_, design, java, _), Solution).
+
+clue(6, [
+    p('Alex', _, _, _),
+    p('Ben', _, _, _),
+    p('Carla', Department, _, Project),
+    p('Dana', _, _, _)
+]) :-
+    dif(Project, embedded),
+    dif(Department, development).
