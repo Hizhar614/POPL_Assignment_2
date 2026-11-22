@@ -171,3 +171,37 @@ test(nested_multiple_precedence_levels) :-
     String == "(4+2)*(8-6/3)".
 
 :- end_tests(format_expression).
+
+:- begin_tests(generate_equation).
+
+test(four_numbers_generates_a_listed_equation) :-
+    once((   generate_equation([4, 2, 5, 3], Equation),
+             string(Equation),
+             memberchk(Equation,
+                       ["4*2-5=3", "4*2=5+3", "4-2=5-3", "4/2=5-3",
+                        "4=2*(5-3)", "4=2+(5-3)", "4=2+5-3"])
+         )).
+
+test(two_four_eight_generates_exact_equation_and_preserves_order) :-
+    once((   generate_equation([2, 4, 8], Equation),
+             string(Equation),
+             Equation == "2*4=8"
+         )).
+
+test(no_solution_example_fails, [fail]) :-
+    generate_equation([2, 3, 4], _Equation).
+
+test(empty_list_fails, [fail]) :-
+    generate_equation([], _Equation).
+
+test(singleton_list_fails, [fail]) :-
+    generate_equation([5], _Equation).
+
+test(backtracking_generates_multiple_distinct_equations) :-
+    findall(Equation,
+            generate_equation([4, 2, 5, 3], Equation),
+            Equations),
+    sort(Equations, UniqueEquations),
+    UniqueEquations = [_, _|_].
+
+:- end_tests(generate_equation).
