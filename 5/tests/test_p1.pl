@@ -244,6 +244,15 @@ test_clue8 :-
         ]),
         data_in_research_javascript_fails).
 
+% Candidate solution count tests
+
+test_count_solutions :-
+    require_test(count_solutions([], 13824), empty_active_counts_every_candidate),
+    require_test(count_solutions([1], 7776), clue_1_solution_count),
+    require_test(count_solutions([2], 7776), clue_2_solution_count),
+    require_test(count_solutions([1, 2, 3, 4, 5, 6, 7, 8], 3),
+                  all_clues_solution_count).
+
 % Single entry point for the P1 suite
 
 run_p1_tests :-
@@ -255,7 +264,8 @@ run_p1_tests :-
     test_clue5,
     test_clue6,
     test_clue7,
-    test_clue8.
+    test_clue8,
+    test_count_solutions.
 
 require_test(Goal, TestName) :-
     (   call(Goal)

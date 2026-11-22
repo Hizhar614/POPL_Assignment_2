@@ -111,3 +111,12 @@ main :-
            [CarlaDepartment, CarlaLanguage, CarlaProject]),
     format('Dana = [~a, ~a, ~a]~n',
            [DanaDepartment, DanaLanguage, DanaProject]).
+
+count_solutions(Active, N) :-
+    findall(Solution,
+            (   candidate_solution(Solution),
+                forall(member(ClueNumber, Active),
+                       call(clue(ClueNumber, Solution)))
+            ),
+            Solutions),
+    length(Solutions, N).
