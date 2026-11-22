@@ -218,6 +218,32 @@ test_clue7 :-
         ]),
         dana_research_java_fails).
 
+test_clue8 :-
+    require_test(
+        clue(8, [
+            p('Alex', development, java, 'AI'),
+            p('Ben', design, 'c++', web),
+            p('Carla', testing, javascript, embedded),
+            p('Dana', research, python, data)
+        ]),
+        data_in_research_non_javascript_succeeds),
+    require_test(
+        \+ clue(8, [
+            p('Alex', research, python, 'AI'),
+            p('Ben', testing, java, web),
+            p('Carla', design, 'c++', embedded),
+            p('Dana', development, javascript, data)
+        ]),
+        data_in_development_fails),
+    require_test(
+        \+ clue(8, [
+            p('Alex', development, python, 'AI'),
+            p('Ben', design, java, web),
+            p('Carla', testing, 'c++', embedded),
+            p('Dana', research, javascript, data)
+        ]),
+        data_in_research_javascript_fails).
+
 % Single entry point for the P1 suite
 
 run_p1_tests :-
@@ -228,7 +254,8 @@ run_p1_tests :-
     test_clue4,
     test_clue5,
     test_clue6,
-    test_clue7.
+    test_clue7,
+    test_clue8.
 
 require_test(Goal, TestName) :-
     (   call(Goal)

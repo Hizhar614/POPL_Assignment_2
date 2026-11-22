@@ -76,3 +76,13 @@ clue(7, [
 ]) :-
     dif(Language, java),
     (Department = research ; Department = testing).
+
+clue(8, Solution) :-
+    Solution = [
+        p('Alex', _, _, _),
+        p('Ben', _, _, _),
+        p('Carla', _, _, _),
+        p('Dana', _, _, _)
+    ],
+    member(p(_, research, Language, data), Solution),
+    dif(Language, javascript).
