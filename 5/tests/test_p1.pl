@@ -106,13 +106,40 @@ test_clue3 :-
         ]),
         python_outside_testing_fails).
 
+test_clue4 :-
+    require_test(
+        clue(4, [
+            p('Alex', research, python, 'AI'),
+            p('Ben', development, java, web),
+            p('Carla', design, 'c++', embedded),
+            p('Dana', testing, javascript, data)
+        ]),
+        ben_web_outside_testing_succeeds),
+    require_test(
+        \+ clue(4, [
+            p('Alex', research, python, 'AI'),
+            p('Ben', testing, java, web),
+            p('Carla', design, 'c++', embedded),
+            p('Dana', development, javascript, data)
+        ]),
+        ben_web_in_testing_fails),
+    require_test(
+        \+ clue(4, [
+            p('Alex', research, python, 'AI'),
+            p('Ben', development, java, embedded),
+            p('Carla', testing, 'c++', web),
+            p('Dana', design, javascript, data)
+        ]),
+        ben_not_preferring_web_fails).
+
 % Single entry point for the P1 suite
 
 run_p1_tests :-
     test_candidate_generator,
     test_clue1,
     test_clue2,
-    test_clue3.
+    test_clue3,
+    test_clue4.
 
 require_test(Goal, TestName) :-
     (   call(Goal)

@@ -41,3 +41,11 @@ clue(3, Solution) :-
         p('Dana', _, _, _)
     ],
     member(p(_, testing, python, _), Solution).
+
+clue(4, [
+    p('Alex', _, _, _),
+    p('Ben', Department, _, web),
+    p('Carla', _, _, _),
+    p('Dana', _, _, _)
+]) :-
+    dif(Department, testing).
