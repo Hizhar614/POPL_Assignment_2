@@ -98,3 +98,76 @@ test(negative_number_fails, [fail]) :-
     expression_value([-1], num(-1), -1).
 
 :- end_tests(expression_value).
+
+:- begin_tests(format_expression).
+
+test(single_number) :-
+    once(format_expression(num(42), String)),
+    string(String),
+    String == "42".
+
+test(addition) :-
+    once(format_expression(expr(add, num(2), num(3)), String)),
+    string(String),
+    String == "2+3".
+
+test(subtraction) :-
+    once(format_expression(expr(subtract, num(7), num(2)), String)),
+    string(String),
+    String == "7-2".
+
+test(multiplication) :-
+    once(format_expression(expr(multiply, num(4), num(2)), String)),
+    string(String),
+    String == "4*2".
+
+test(division) :-
+    once(format_expression(expr(divide, num(8), num(4)), String)),
+    string(String),
+    String == "8/4".
+
+test(multiplication_nested_under_addition) :-
+    once(format_expression(expr(add, num(4), expr(multiply, num(2), num(3))), String)),
+    string(String),
+    String == "4+2*3".
+
+test(lower_precedence_left_operand) :-
+    once(format_expression(expr(multiply, expr(add, num(4), num(2)), num(3)), String)),
+    string(String),
+    String == "(4+2)*3".
+
+test(equal_precedence_right_operand) :-
+    once(format_expression(expr(subtract, num(4), expr(subtract, num(2), num(3))), String)),
+    string(String),
+    String == "4-(2-3)".
+
+test(equal_precedence_left_operand) :-
+    once(format_expression(expr(subtract, expr(subtract, num(4), num(2)), num(3)), String)),
+    string(String),
+    String == "4-2-3".
+
+test(mixed_addition_and_subtraction) :-
+    once(format_expression(expr(add, expr(subtract, num(4), num(2)), num(3)), String)),
+    string(String),
+    String == "4-2+3".
+
+test(mixed_division_and_multiplication) :-
+    once(format_expression(expr(multiply, expr(divide, num(8), num(4)), num(2)), String)),
+    string(String),
+    String == "8/4*2".
+
+test(right_operand_with_lower_precedence) :-
+    once(format_expression(expr(multiply, num(4), expr(add, num(2), num(3))), String)),
+    string(String),
+    String == "4*(2+3)".
+
+test(nested_multiple_precedence_levels) :-
+    once(format_expression(
+             expr(multiply,
+                  expr(add, num(4), num(2)),
+                  expr(subtract, num(8), expr(divide, num(6), num(3)))),
+             String)),
+    string(String),
+    String == "(4+2)*(8-6/3)".
+
+:- end_tests(format_expression).
