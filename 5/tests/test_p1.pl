@@ -244,6 +244,32 @@ test_clue8 :-
         ]),
         data_in_research_javascript_fails).
 
+test_clue9 :-
+    require_test(
+        clue(9, [
+            p('Alex', research, python, web),
+            p('Ben', development, java, embedded),
+            p('Carla', testing, 'c++', 'AI'),
+            p('Dana', design, javascript, data)
+        ]),
+        ai_in_testing_succeeds),
+    require_test(
+        \+ clue(9, [
+            p('Alex', research, python, web),
+            p('Ben', design, java, 'AI'),
+            p('Carla', testing, 'c++', embedded),
+            p('Dana', development, javascript, data)
+        ]),
+        ai_in_design_fails),
+    require_test(
+        \+ clue(9, [
+            p('Alex', research, python, 'AI'),
+            p('Ben', development, java, web),
+            p('Carla', design, 'c++', embedded),
+            p('Dana', testing, javascript, data)
+        ]),
+        ai_in_research_fails).
+
 % Candidate solution count tests
 
 test_count_solutions :-
@@ -265,6 +291,7 @@ run_p1_tests :-
     test_clue6,
     test_clue7,
     test_clue8,
+    test_clue9,
     test_count_solutions.
 
 require_test(Goal, TestName) :-

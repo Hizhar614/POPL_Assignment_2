@@ -87,6 +87,16 @@ clue(8, Solution) :-
     member(p(_, research, Language, data), Solution),
     dif(Language, javascript).
 
+% CLUE 9: The friend who prefers the AI project works in the testing department.
+clue(9, Solution) :-
+    Solution = [
+        p('Alex', _, _, _),
+        p('Ben', _, _, _),
+        p('Carla', _, _, _),
+        p('Dana', _, _, _)
+    ],
+    member(p(_, testing, _, 'AI'), Solution).
+
 main :-
     candidate_solution(Solution),
     clue(1, Solution),
