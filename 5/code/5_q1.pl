@@ -49,3 +49,12 @@ clue(4, [
     p('Dana', _, _, _)
 ]) :-
     dif(Department, testing).
+
+clue(5, Solution) :-
+    Solution = [
+        p('Alex', _, _, _),
+        p('Ben', _, _, _),
+        p('Carla', _, _, _),
+        p('Dana', _, _, _)
+    ],
+    member(p(_, design, java, _), Solution).

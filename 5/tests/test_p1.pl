@@ -132,6 +132,32 @@ test_clue4 :-
         ]),
         ben_not_preferring_web_fails).
 
+test_clue5 :-
+    require_test(
+        clue(5, [
+            p('Alex', research, python, 'AI'),
+            p('Ben', development, javascript, web),
+            p('Carla', design, java, embedded),
+            p('Dana', testing, 'c++', data)
+        ]),
+        java_in_design_succeeds),
+    require_test(
+        \+ clue(5, [
+            p('Alex', development, python, 'AI'),
+            p('Ben', research, java, web),
+            p('Carla', design, 'c++', embedded),
+            p('Dana', testing, javascript, data)
+        ]),
+        java_in_research_fails),
+    require_test(
+        \+ clue(5, [
+            p('Alex', research, python, 'AI'),
+            p('Ben', development, java, web),
+            p('Carla', design, 'c++', embedded),
+            p('Dana', testing, javascript, data)
+        ]),
+        design_without_java_fails).
+
 % Single entry point for the P1 suite
 
 run_p1_tests :-
@@ -139,7 +165,8 @@ run_p1_tests :-
     test_clue1,
     test_clue2,
     test_clue3,
-    test_clue4.
+    test_clue4,
+    test_clue5.
 
 require_test(Goal, TestName) :-
     (   call(Goal)
